@@ -52,6 +52,7 @@
 	var Router = router.Router;
 	var Route = router.Route;
 	var hashHistory = router.hashHistory;
+	var IndexRoute = router.IndexRoute;
 	
 	var CONTACTS = {
 	    0: {
@@ -69,6 +70,23 @@
 	        name: 'Sam Smith',
 	        phoneNumber: '03456 789012'
 	    }
+	};
+	
+	var App = function App(props) {
+	    return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	            'h1',
+	            null,
+	            'Contacts App'
+	        ),
+	        React.createElement(
+	            'div',
+	            null,
+	            props.children
+	        )
+	    );
 	};
 	
 	var Contact = function Contact(props) {
@@ -106,11 +124,21 @@
 	    return React.createElement(ContactList, { contacts: CONTACTS });
 	};
 	
+	var ContactContainer = function ContactContainer(props) {
+	    var contact = CONTACTS[props.params.contactId];
+	    return React.createElement(Contact, { id: contact.id, name: contact.name,
+	        phoneNumber: contact.phoneNumber });
+	};
+	
 	var routes = React.createElement(
 	    Router,
 	    { history: hashHistory },
-	    React.createElement(Route, { path: '/', component: ContactListContainer }),
-	    React.createElement(Route, { path: '/contacts', component: ContactListContainer })
+	    React.createElement(
+	        Route,
+	        { path: '/contacts', component: App },
+	        React.createElement(IndexRoute, { component: ContactListContainer }),
+	        React.createElement(Route, { path: ':contactId', component: ContactContainer })
+	    )
 	);
 	
 	document.addEventListener('DOMContentLoaded', function () {

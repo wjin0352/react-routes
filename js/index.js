@@ -4,6 +4,8 @@ var router = require('react-router');
 var Router = router.Router;
 var Route = router.Route;
 var hashHistory = router.hashHistory;
+var IndexRoute = router.IndexRoute;
+
 
 var CONTACTS = {
     0: {
@@ -21,6 +23,19 @@ var CONTACTS = {
         name: 'Sam Smith',
         phoneNumber: '03456 789012'
     }
+};
+
+var App = function(props) {
+  return (
+    <div>
+      <h1>
+        Contacts App
+      </h1>
+      <div>
+        {props.children}
+      </div>
+    </div>
+  );
 };
 
 var Contact = function(props) {
@@ -52,15 +67,24 @@ var ContactList = function(props) {
     );
 };
 
-
 var ContactListContainer = function() {
     return <ContactList contacts={CONTACTS} />;
 };
 
+var ContactContainer = function(props) {
+  var contact = CONTACTS[props.params.contactId];
+  return (
+    <Contact id={contact.id} name={contact.name} phoneNumber={contact.phoneNumber}
+    />;
+  );
+};
+
 var routes = (
   <Router history={hashHistory}>
-    <Route path="/" component={ContactListContainer} />
-    <Route path="/contacts" component={ContactListContainer} />
+    <Route path="/contacts" component={App}>
+      <IndexRoute component={ContactListContainer} />
+      <Route path=":contactId" component={ContactContainer} />
+    </Route>
   </Router>
 );
 
