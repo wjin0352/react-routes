@@ -53,6 +53,7 @@
 	var Route = router.Route;
 	var hashHistory = router.hashHistory;
 	var IndexRoute = router.IndexRoute;
+	var Link = router.Link;
 	
 	var CONTACTS = {
 	    0: {
@@ -96,7 +97,11 @@
 	        React.createElement(
 	            'strong',
 	            null,
-	            props.name
+	            React.createElement(
+	                Link,
+	                { to: '/contacts/' + props.id },
+	                props.name
+	            )
 	        ),
 	        ' ',
 	        props.phoneNumber
@@ -126,8 +131,8 @@
 	
 	var ContactContainer = function ContactContainer(props) {
 	    var contact = CONTACTS[props.params.contactId];
-	    return React.createElement(Contact, { id: contact.id, name: contact.name,
-	        phoneNumber: contact.phoneNumber });
+	    return React.createElement(Contact, { id: contact.id, name: contact.name, phoneNumber: contact.phoneNumber
+	    });
 	};
 	
 	var routes = React.createElement(

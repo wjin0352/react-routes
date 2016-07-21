@@ -5,7 +5,7 @@ var Router = router.Router;
 var Route = router.Route;
 var hashHistory = router.hashHistory;
 var IndexRoute = router.IndexRoute;
-
+var Link = router.Link;
 
 var CONTACTS = {
     0: {
@@ -42,7 +42,9 @@ var Contact = function(props) {
     return (
         <div>
             <strong>
+              <Link to={'/contacts/' + props.id}>
                 {props.name}
+              </Link>
             </strong>
             &nbsp;
             {props.phoneNumber}
@@ -75,7 +77,7 @@ var ContactContainer = function(props) {
   var contact = CONTACTS[props.params.contactId];
   return (
     <Contact id={contact.id} name={contact.name} phoneNumber={contact.phoneNumber}
-    />;
+    />
   );
 };
 
